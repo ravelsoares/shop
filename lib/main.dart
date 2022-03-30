@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.purple,
           colorScheme: ThemeData().colorScheme.copyWith(
                 primary: Colors.purple,
-                secondary: Colors.deepOrange,
+                secondary: const Color.fromARGB(255, 253, 88, 38),
               ),
           textTheme: const TextTheme(
               headline6: TextStyle(fontFamily: 'Lato', color: Colors.white)),
