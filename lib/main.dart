@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Shop',
         theme: ThemeData().copyWith(
           primaryColor: Colors.purple,
           colorScheme: ThemeData().colorScheme.copyWith(
