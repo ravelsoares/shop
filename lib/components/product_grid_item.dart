@@ -5,8 +5,8 @@ import 'package:shop/utils/app_routes.dart';
 
 import '../models/cart.dart';
 
-class ProductItem extends StatelessWidget {
-  const ProductItem({Key? key}) : super(key: key);
+class ProductGridItem extends StatelessWidget {
+  const ProductGridItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +55,18 @@ class ProductItem extends StatelessWidget {
             ),
             onPressed: () {
               cart.addItem(product);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Produto adicionado com sucesso!'),
+                  duration: const Duration(seconds: 1),
+                  action: SnackBarAction(
+                    label: 'DESFAZER',
+                    onPressed: () {
+                      Provider.of<Cart>(context, listen: false).removeSingleItem(product.id);
+                    },
+                  ),
+                ),
+              );
             },
           ),
         ),
