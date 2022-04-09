@@ -55,6 +55,7 @@ class ProductGridItem extends StatelessWidget {
             ),
             onPressed: () {
               cart.addItem(product);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text('Produto adicionado com sucesso!'),
@@ -62,7 +63,8 @@ class ProductGridItem extends StatelessWidget {
                   action: SnackBarAction(
                     label: 'DESFAZER',
                     onPressed: () {
-                      Provider.of<Cart>(context, listen: false).removeSingleItem(product.id);
+                      Provider.of<Cart>(context, listen: false)
+                          .removeSingleItem(product.id);
                     },
                   ),
                 ),
