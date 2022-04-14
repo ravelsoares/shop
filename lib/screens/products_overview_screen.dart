@@ -31,11 +31,15 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             itemBuilder: (_) {
               return const [
                 PopupMenuItem(
-                  child: Text('Somente Favoritos'),
+                  child: Text('Somente Favoritos',
+                      style: TextStyle(color: Colors.black)),
                   value: FilterOptions.favorite,
                 ),
                 PopupMenuItem(
-                  child: Text('Todos'),
+                  child: Text(
+                    'Todos',
+                    style: TextStyle(color: Colors.black),
+                  ),
                   value: FilterOptions.all,
                 ),
               ];

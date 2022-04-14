@@ -32,11 +32,23 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {});
   }
 
+  void _submitForm() {
+    print('submit....');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Formulário de produto'),
+        title: const Text(
+          'Formulário de produto',
+        ),
+        actions: [
+          IconButton(
+            onPressed: _submitForm,
+            icon: const Icon(Icons.save),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -77,6 +89,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                           const InputDecoration(labelText: 'URL da imagem'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) => _submitForm(),
                     ),
                   ),
                   Container(
@@ -88,7 +101,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     ),
                     alignment: Alignment.center,
                     child: _imageUrlController.text.isEmpty
-                        ? const Text('Informe a Url')
+                        ? const Text('Informe a Url',
+                            style: TextStyle(color: Colors.black))
                         : FittedBox(
                             child: Image.network(_imageUrlController.text),
                             fit: BoxFit.cover,

@@ -18,7 +18,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.shop),
-            title: const Text('Loja'),
+            title: const Text('Loja', style: TextStyle(color: Colors.black)),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.home);
             },
@@ -26,7 +26,8 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.payment),
-            title: const Text('Meus Pedidos'),
+            title: const Text('Meus Pedidos',
+                style: TextStyle(color: Colors.black)),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.orders);
             },
@@ -34,7 +35,10 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.edit),
-            title: const Text('Gerenciar Produtos'),
+            title: const Text(
+              'Gerenciar Produtos',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.products);
             },

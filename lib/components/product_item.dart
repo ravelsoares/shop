@@ -11,7 +11,7 @@ class ProductItem extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
       ),
-      title: Text(product.name),
+      title: Text(product.name, style: const TextStyle(color: Colors.black)),
       trailing: SizedBox(
         width: 100,
         child: Row(
