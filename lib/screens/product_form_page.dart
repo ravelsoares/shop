@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:shop/models/product.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({Key? key}) : super(key: key);
@@ -12,6 +15,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
   final _descriptionFocus = FocusNode();
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  final _formData = <String, Object>{};
 
   @override
   void initState() {
@@ -33,7 +39,15 @@ class _ProductFormPageState extends State<ProductFormPage> {
   }
 
   void _submitForm() {
-    print('submit....');
+    _formKey.currentState?.save();
+    print(_formData.values);
+    final newProduct = Product(
+      id: Random().nextDouble().toString(),
+      name: _formData['name'] as String,
+      description: _formData['description'] as String,
+      price: _formData['price'] as double,
+      imageUrl: _formData['imageUrl'] as String,
+    );
   }
 
   @override
@@ -53,16 +67,20 @@ class _ProductFormPageState extends State<ProductFormPage> {
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Form(
+          key: _formKey,
           child: ListView(
             children: [
               TextFormField(
+                style: const TextStyle(color: Colors.black),
                 decoration: const InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
+                onSaved: (name) => _formData['name'] = name ?? '',
               ),
               TextFormField(
+                style: const TextStyle(color: Colors.black),
                 focusNode: _priceFocus,
                 decoration: const InputDecoration(labelText: 'Preço'),
                 textInputAction: TextInputAction.next,
@@ -71,25 +89,34 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
+                onSaved: (price) =>
+                    _formData['price'] = double.parse(price ?? '0'),
               ),
               TextFormField(
+                style: const TextStyle(color: Colors.black),
                 focusNode: _descriptionFocus,
                 decoration: const InputDecoration(labelText: 'Descrição'),
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
+                onSaved: (description) =>
+                    _formData['description'] = description ?? '',
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: TextFormField(
+                      style: const TextStyle(color: Colors.black),
+                      cursorColor: Colors.black,
                       controller: _imageUrlController,
                       focusNode: _imageUrlFocus,
-                      decoration:
-                          const InputDecoration(labelText: 'URL da imagem'),
+                      decoration: const InputDecoration(
+                          labelText: 'URL da imagem', iconColor: Colors.black),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       onFieldSubmitted: (_) => _submitForm(),
+                      onSaved: (imageUrl) =>
+                          _formData['imageUrl'] = imageUrl ?? '',
                     ),
                   ),
                   Container(
@@ -104,7 +131,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         ? const Text('Informe a Url',
                             style: TextStyle(color: Colors.black))
                         : FittedBox(
-                            child: Image.network(_imageUrlController.text),
+                            child: Image.network(_imageUrlController.text,
+                                width: 100, height: 100),
                             fit: BoxFit.cover,
                           ),
                   ),

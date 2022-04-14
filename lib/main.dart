@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                 secondary: const Color.fromARGB(255, 253, 88, 38),
               ),
           textTheme: const TextTheme(
-            headline6: TextStyle(fontFamily: 'Lato', color: Colors.white),
+            headline6: TextStyle(fontFamily: 'Lato'),
             headline1: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w300, color: Colors.black),
           ),
