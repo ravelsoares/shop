@@ -77,6 +77,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           child: ListView(
             children: [
               TextFormField(
+                textCapitalization: TextCapitalization.sentences,
                 style: const TextStyle(color: Colors.black),
                 decoration: const InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
@@ -122,6 +123,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 },
               ),
               TextFormField(
+                textCapitalization: TextCapitalization.sentences,
                 style: const TextStyle(color: Colors.black),
                 focusNode: _descriptionFocus,
                 decoration: const InputDecoration(labelText: 'Descrição'),
