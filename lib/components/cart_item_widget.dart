@@ -32,7 +32,10 @@ class CartItemWidget extends StatelessWidget {
                 'Deseja excluir ?',
                 style: TextStyle(color: Colors.black),
               ),
-              content: const Text('Se você excluir não terá como recuperar!'),
+              content: const Text(
+                'Se você excluir não terá como recuperar!',
+                style: TextStyle(color: Colors.black),
+              ),
               actions: [
                 TextButton(
                   onPressed: () {
