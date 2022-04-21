@@ -45,18 +45,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               ];
             },
             onSelected: (FilterOptions selectedValue) {
-              switch (selectedValue) {
-                case FilterOptions.favorite:
-                  setState(() {
-                    showfavoriteOnly = true;
-                  });
-                  break;
-                case FilterOptions.all:
-                  setState(() {
-                    showfavoriteOnly = false;
-                  });
-                  break;
-              }
+              setState(() {
+                if (selectedValue == FilterOptions.favorite) {
+                  showfavoriteOnly = true;
+                } else {
+                  showfavoriteOnly = false;
+                }
+              });
             },
           ),
           Consumer<Cart>(
