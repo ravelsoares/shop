@@ -6,7 +6,7 @@ import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
   final _url = 'https://shop-5fa62-default-rtdb.firebaseio.com/products.json';
-  List<Product> _items = [];
+  final List<Product> _items = [];
 
   List<Product> get items => [..._items];
   List<Product> get favoriItems =>
