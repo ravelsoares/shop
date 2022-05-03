@@ -4,12 +4,15 @@ import 'package:shop/models/product.dart';
 import 'package:shop/models/product_list.dart';
 import 'package:shop/utils/app_routes.dart';
 
+import '../exceptions/http_exception.dart';
+
 class ProductItem extends StatelessWidget {
   final Product product;
   const ProductItem({required this.product, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final msg = ScaffoldMessenger.of(context);
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
@@ -46,22 +49,30 @@ class ProductItem extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop(false);
                           },
                           child: const Text('Cancelar'),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Provider.of<ProductList>(context, listen: false)
-                                .deleteProduct(product);
+                          onPressed: () async {
+                            Navigator.of(context).pop(true);
                           },
                           child: const Text('Excluir'),
                         ),
                       ],
                     );
                   },
-                );
+                ).then((value) async {
+                  if (value ?? false) {
+                    try {
+                      await Provider.of<ProductList>(context, listen: false)
+                          .deleteProduct(product);
+                    } on HttpException catch (error) {
+                      msg.showSnackBar(
+                          SnackBar(content: Text(error.toString())));
+                    }
+                  }
+                });
               },
               icon: Icon(
                 Icons.delete,
