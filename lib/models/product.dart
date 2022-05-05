@@ -1,4 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+
+import '../utils/constants.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -17,8 +23,23 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  void toggleFavorite() {
+  void _toogleFavorite() {
     isFavorite = !isFavorite;
     notifyListeners();
+  }
+
+  Future<void> toggleFavorite() async {
+    try {
+      _toogleFavorite();
+      final response = await http.patch(
+        Uri.parse('${Constants.productBaseUrl}/$id.json'),
+        body: jsonEncode({'isFavorite': isFavorite}),
+      );
+      if (response.statusCode >= 400) {
+        _toogleFavorite();
+      }
+    } catch (error) {
+      _toogleFavorite();
+    }
   }
 }
