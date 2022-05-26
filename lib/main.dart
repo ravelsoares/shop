@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/order_list.dart';
 import 'package:shop/models/product_list.dart';
+import 'package:shop/screens/auth_screen.dart';
 import 'package:shop/screens/cart_screen.dart';
 import 'package:shop/screens/orders_screen.dart';
 import 'package:shop/screens/product_detail_screen.dart';
@@ -41,11 +42,11 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('pt', 'BR')],
         title: 'Shop',
-        theme: ThemeData().copyWith(
+        theme: ThemeData(fontFamily: 'Lato').copyWith(
           primaryColor: Colors.purple,
           colorScheme: ThemeData().colorScheme.copyWith(
                 primary: Colors.purple,
-                secondary: const Color.fromARGB(255, 253, 88, 38),
+                secondary: Colors.deepOrange,
               ),
           textTheme: const TextTheme(
             headline6: TextStyle(fontFamily: 'Lato'),
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         routes: {
+          AppRoutes.auth: (context) => const AuthScreen(),
           AppRoutes.home: (context) => const ProductsOverviewScreen(),
           AppRoutes.productDetail: (context) => const ProductDetailScreen(),
           AppRoutes.cart: (context) => const CartScreen(),
