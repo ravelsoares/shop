@@ -60,8 +60,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         routes: {
-          AppRoutes.auth: (context) => const AuthScreen(),
-          AppRoutes.home: (context) => const ProductsOverviewScreen(),
+          AppRoutes.authOrHomeScreen: (context) => const AuthScreen(),
           AppRoutes.productDetail: (context) => const ProductDetailScreen(),
           AppRoutes.cart: (context) => const CartScreen(),
           AppRoutes.orders: (context) => const OrdersScreen(),

@@ -63,8 +63,9 @@ class _AuthFormState extends State<AuthForm> {
           title: const Text('Ocorreu um erro'),
           actions: [
             TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('OK')),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
           ],
         );
       },
