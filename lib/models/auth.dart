@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Auth with ChangeNotifier {
-  static const _url =
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD3i4p4U65wR6DdpSxGUVJtOm2s6kZL2iI';
-  Future<void> signup(String email, String password) async {
+  Future<void> _authenticate(
+      String email, String password, String urlFragment) async {
+    final url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlFragment?key=AIzaSyD3i4p4U65wR6DdpSxGUVJtOm2s6kZL2iI';
     final response = await http.post(
-      Uri.parse(_url),
+      Uri.parse(url),
       body: jsonEncode(
         {
           'email': email,
@@ -17,5 +18,13 @@ class Auth with ChangeNotifier {
       ),
     );
     print(jsonDecode(response.body));
+  }
+
+  Future<void> signup(String email, String password) async {
+    _authenticate(email, password, 'signUp');
+  }
+
+  Future<void> login(String email, String password) async {
+    _authenticate(email, password, 'signInWithPassword');
   }
 }
