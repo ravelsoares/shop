@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/exceptions/auth_exception.dart';
+import 'package:shop/utils/app_routes.dart';
 
 import '../models/auth.dart';
 
@@ -38,7 +39,9 @@ class _AuthFormState extends State<AuthForm> {
 
     try {
       if (_isLogin()) {
-        await auth.login(_authData['email']!, _authData['password']!);
+        await auth.login(_authData['email']!, _authData['password']!).then(
+            (value) => Navigator.of(context)
+                .pushReplacementNamed(AppRoutes.authOrHomeScreen));
       } else {
         await auth.signup(
           _authData['email']!,

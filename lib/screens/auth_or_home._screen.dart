@@ -10,6 +10,6 @@ class AuthOrHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Auth auth = Provider.of<Auth>(context);
-    return auth.isAuth ? const ProductsOverviewScreen() : const AuthScreen();
+    return auth.isAuth ? ProductsOverviewScreen() : AuthScreen();
   }
 }

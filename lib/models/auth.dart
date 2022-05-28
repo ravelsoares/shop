@@ -47,8 +47,7 @@ class Auth with ChangeNotifier {
       _token = body['idToken'];
       _email = body['email'];
       _uid = body['localId'];
-      _expiryDate =
-          DateTime.now().add(Duration(seconds: int.parse(body['expiresIn'])));
+      _expiryDate = DateTime.now().add(Duration(seconds: 3600));
       notifyListeners();
     }
     print(body);
