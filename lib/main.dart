@@ -4,18 +4,17 @@ import 'package:shop/models/auth.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/order_list.dart';
 import 'package:shop/models/product_list.dart';
-import 'package:shop/screens/auth_screen.dart';
+import 'package:shop/screens/auth_or_home._screen.dart';
 import 'package:shop/screens/cart_screen.dart';
 import 'package:shop/screens/orders_screen.dart';
 import 'package:shop/screens/product_detail_screen.dart';
 import 'package:shop/screens/product_form_page.dart';
-import 'package:shop/screens/products_overview_screen.dart';
 import 'package:shop/screens/products_screen.dart';
 import 'package:shop/utils/app_routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -63,7 +62,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         routes: {
-          AppRoutes.authOrHomeScreen: (context) => const AuthScreen(),
+          AppRoutes.authOrHomeScreen: (context) => const AuthOrHomeScreen(),
           AppRoutes.productDetail: (context) => const ProductDetailScreen(),
           AppRoutes.cart: (context) => const CartScreen(),
           AppRoutes.orders: (context) => const OrdersScreen(),
