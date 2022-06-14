@@ -1,13 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/cart_item.dart';
 import 'package:shop/models/order.dart';
 import 'package:shop/utils/constants.dart';
 
 class OrderList extends ChangeNotifier {
-  final List<Order> _items = [];
+  final String _token;
+  OrderList(
+    this._items,
+    this._token,
+  );
+  List<Order> _items = [];
 
   List<Order> get items => [..._items];
 
@@ -16,7 +24,7 @@ class OrderList extends ChangeNotifier {
   Future<void> addOrder(Cart cart) async {
     final date = DateTime.now();
     final response = await http.post(
-      Uri.parse('${Constants.orderBaseUrl}.json'),
+      Uri.parse('${Constants.orderBaseUrl}.json?auth=$_token'),
       body: jsonEncode(
         {
           'total': cart.totalAmount,
@@ -49,14 +57,14 @@ class OrderList extends ChangeNotifier {
   }
 
   Future<void> loadOrders() async {
-    _items.clear();
-    final response =
-        await http.get(Uri.parse('${Constants.orderBaseUrl}.json'));
+    List<Order> items = [];
+    final response = await http
+        .get(Uri.parse('${Constants.orderBaseUrl}.json?auth=$_token'));
     if (response.body == 'null') return;
 
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((orderId, orderData) {
-      _items.add(
+      items.add(
         Order(
           id: orderId,
           total: orderData['total'],
@@ -75,6 +83,7 @@ class OrderList extends ChangeNotifier {
         ),
       );
     });
+    _items = items.reversed.toList();
     notifyListeners();
   }
 }
