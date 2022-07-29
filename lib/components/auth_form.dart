@@ -39,12 +39,12 @@ class _AuthFormState extends State<AuthForm> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Ocorreu um Erro'),
-        content: Text(msg),
+        title: const Text('Ocorreu um Erro', style: TextStyle(color: Colors.black),),
+        content: Text(msg, style: const TextStyle(color: Colors.black),),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Fechar'),
+            child: const Text('Fechar'),
           ),
         ],
       ),
@@ -101,6 +101,7 @@ class _AuthFormState extends State<AuthForm> {
           child: Column(
             children: [
               TextFormField(
+                style: const TextStyle(color: Colors.black),
                 decoration: const InputDecoration(labelText: 'E-mail'),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (email) => _authData['email'] = email ?? '',
@@ -113,6 +114,7 @@ class _AuthFormState extends State<AuthForm> {
                 },
               ),
               TextFormField(
+                style: const TextStyle(color: Colors.black),
                 decoration: const InputDecoration(labelText: 'Senha'),
                 keyboardType: TextInputType.emailAddress,
                 obscureText: true,

@@ -12,8 +12,8 @@ import 'package:shop/utils/constants.dart';
 class OrderList extends ChangeNotifier {
   final String _token;
   OrderList(
-    this._items,
-    this._token,
+    [this._items = const [],
+    this._token = '',]
   );
   List<Order> _items = [];
 

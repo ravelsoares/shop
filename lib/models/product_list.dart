@@ -7,10 +7,15 @@ import 'package:shop/models/product.dart';
 import 'package:shop/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
+  String _userId;
   String _token;
   List<Product> _items = [];
 
-  ProductList(this._token, this._items);
+  ProductList([
+    this._token = '',
+    this._userId = '',
+    this._items = const [],
+  ]);
 
   List<Product> get items => [..._items];
   List<Product> get favoriItems =>
@@ -40,8 +45,15 @@ class ProductList with ChangeNotifier {
         .get(Uri.parse('${Constants.productBaseUrl}.json?auth=$_token'));
     if (response.body == 'null') return;
 
+    final favResponse = await http.get(
+      Uri.parse('${Constants.userFavoritesUrl}/$_userId.json?auth=$_token'),
+    );
+
+    Map<String, dynamic> favData =
+        favResponse.body == 'null' ? {} : jsonDecode(favResponse.body);
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
+      final isFavorite = favData[productId]?['isFavorite'] ?? false;
       _items.add(
         Product(
           id: productId,
@@ -49,7 +61,7 @@ class ProductList with ChangeNotifier {
           description: productData['description'],
           price: productData['price'],
           imageUrl: productData['imageUrl'],
-          isFavorite: productData['isFavorite'],
+          isFavorite: isFavorite,
         ),
       );
     });
@@ -57,15 +69,14 @@ class ProductList with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final response =
-        await http.post(Uri.parse('${Constants.productBaseUrl}.json?auth=$_token'),
-            body: jsonEncode({
-              'name': product.name,
-              'description': product.description,
-              'price': product.price,
-              'imageUrl': product.imageUrl,
-              'isFavorite': product.isFavorite,
-            }));
+    final response = await http.post(
+        Uri.parse('${Constants.productBaseUrl}.json?auth=$_token'),
+        body: jsonEncode({
+          'name': product.name,
+          'description': product.description,
+          'price': product.price,
+          'imageUrl': product.imageUrl,
+        }));
 
     final id = jsonDecode(response.body)['name'];
     _items.add(
@@ -75,7 +86,6 @@ class ProductList with ChangeNotifier {
         description: product.description,
         price: product.price,
         imageUrl: product.imageUrl,
-        isFavorite: product.isFavorite,
       ),
     );
     notifyListeners();
@@ -85,13 +95,13 @@ class ProductList with ChangeNotifier {
     int index = _items.indexWhere((element) => element.id == product.id);
     if (index >= 0) {
       await http.patch(
-          Uri.parse('${Constants.productBaseUrl}/${product.id}.json?auth=$_token'),
+          Uri.parse(
+              '${Constants.productBaseUrl}/${product.id}.json?auth=$_token'),
           body: jsonEncode({
             'name': product.name,
             'description': product.description,
             'price': product.price,
             'imageUrl': product.imageUrl,
-            'isFavorite': product.isFavorite,
           }));
       _items[index] = product;
       notifyListeners();
@@ -105,8 +115,8 @@ class ProductList with ChangeNotifier {
       _items.remove(product);
       notifyListeners();
 
-      final response = await http
-          .delete(Uri.parse('${Constants.productBaseUrl}/${product.id}.json?auth=$_token'));
+      final response = await http.delete(Uri.parse(
+          '${Constants.productBaseUrl}/${product.id}.json?auth=$_token'));
 
       if (response.statusCode >= 400) {
         _items.insert(index, product);
