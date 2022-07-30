@@ -11,10 +11,12 @@ import 'package:shop/utils/constants.dart';
 
 class OrderList extends ChangeNotifier {
   final String _token;
-  OrderList(
-    [this._items = const [],
-    this._token = '',]
-  );
+  final String _userId;
+  OrderList([
+    this._items = const [],
+    this._userId = '',
+    this._token = '',
+  ]);
   List<Order> _items = [];
 
   List<Order> get items => [..._items];
@@ -24,7 +26,7 @@ class OrderList extends ChangeNotifier {
   Future<void> addOrder(Cart cart) async {
     final date = DateTime.now();
     final response = await http.post(
-      Uri.parse('${Constants.orderBaseUrl}.json?auth=$_token'),
+      Uri.parse('${Constants.orderBaseUrl}/$_userId.json?auth=$_token'),
       body: jsonEncode(
         {
           'total': cart.totalAmount,
@@ -43,7 +45,7 @@ class OrderList extends ChangeNotifier {
         },
       ),
     );
-    final id = jsonDecode(response.body)['name'];
+    final id = await jsonDecode(response.body)['name'];
     _items.insert(
       0,
       Order(
@@ -59,7 +61,7 @@ class OrderList extends ChangeNotifier {
   Future<void> loadOrders() async {
     List<Order> items = [];
     final response = await http
-        .get(Uri.parse('${Constants.orderBaseUrl}.json?auth=$_token'));
+        .get(Uri.parse('${Constants.orderBaseUrl}/$_userId.json?auth=$_token'));
     if (response.body == 'null') return;
 
     Map<String, dynamic> data = jsonDecode(response.body);
